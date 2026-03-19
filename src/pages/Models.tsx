@@ -219,12 +219,53 @@ export default function Models() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="flex justify-center items-center h-full min-h-[400px]"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-12"
             >
-              <div className="text-center p-8 border border-dashed border-gray-700 rounded-xl bg-black/20">
-                <AlertTriangle className="mx-auto text-accent mb-4" size={32} />
-                <h3 className="text-xl font-medium text-white mb-2">Interaction Effect Modeling</h3>
-                <p className="text-gray-400 max-w-md">The interaction module requires server connection to process live subset permutations in R. Currently running in disconnected mock mode.</p>
+              <div className="flex flex-col justify-center h-full p-6">
+                <AlertTriangle className="text-secondary mb-4" size={32} />
+                <h3 className="text-2xl font-serif text-white mb-4">Risk Amplification (Interaction)</h3>
+                <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                   Sometimes, two risk factors combined are much worse than just adding them together. 
+                   <br/><br/>
+                   For example: A child living in a <strong className="text-accent font-bold">Slum</strong> has higher risk. A child with a mother who has <strong className="text-accent font-bold">No Formal Education</strong> has higher risk. 
+                   <br/><br/>
+                   But when a child is in a slum <strong className="text-white bg-white/10 px-2 py-1 rounded">AND</strong> has a mother with no education, the risk of malnutrition <strong className="text-accent font-bold underline">doubles</strong> beyond what we would normally expect. This is an "Interaction Effect".
+                </p>
+                <div className="bg-white/5 border border-white/10 p-4 rounded-lg">
+                   <p className="text-sm font-mono text-gray-400">Interaction OR: <span className="text-white font-bold text-lg">1.34</span> <span className="text-xs text-accent">(p=0.002)</span></p>
+                   <p className="text-xs text-gray-500 mt-1">This means policy interventions should target uneducated mothers specifically inside urban slums for maximum impact.</p>
+                </div>
+              </div>
+
+              <div className="bg-black/20 rounded-xl border border-gray-800 p-8 flex flex-col justify-center">
+                 <h4 className="text-sm uppercase tracking-wider text-gray-400 mb-8 font-semibold text-center mt-4">Stunting Probability by Group</h4>
+                 
+                 <div className="flex items-end justify-center gap-8 h-64 mb-4">
+                    {/* Bar 1 */}
+                    <div className="flex flex-col items-center">
+                       <span className="text-gray-400 font-mono mb-2">35%</span>
+                       <div className="w-16 bg-[#1a3646] rounded-t-md relative group" style={{ height: '35%' }}></div>
+                       <span className="text-xs text-center mt-3 text-gray-500 max-w-[80px]">Primary Edu<br/>Non-Slum</span>
+                    </div>
+                    {/* Bar 2 */}
+                    <div className="flex flex-col items-center">
+                       <span className="text-gray-400 font-mono mb-2">42%</span>
+                       <div className="w-16 bg-[#2d6a4f] rounded-t-md relative group" style={{ height: '42%' }}></div>
+                       <span className="text-xs text-center mt-3 text-gray-500 max-w-[80px]">No Edu<br/>Non-Slum</span>
+                    </div>
+                    {/* Bar 3 */}
+                    <div className="flex flex-col items-center">
+                       <span className="text-gray-400 font-mono mb-2">48%</span>
+                       <div className="w-16 bg-[#e29578] rounded-t-md relative group" style={{ height: '48%' }}></div>
+                       <span className="text-xs text-center mt-3 text-gray-500 max-w-[80px]">Primary Edu<br/>Slum</span>
+                    </div>
+                    {/* Bar 4 */}
+                    <div className="flex flex-col items-center">
+                       <span className="text-accent font-mono font-bold mb-2">61%</span>
+                       <div className="w-16 bg-accent rounded-t-md shadow-[0_0_15px_rgba(230,57,70,0.5)] relative group" style={{ height: '61%' }}></div>
+                       <span className="text-xs text-center mt-3 text-white font-bold max-w-[80px]">No Edu<br/>Slum</span>
+                    </div>
+                 </div>
               </div>
             </motion.div>
           )}

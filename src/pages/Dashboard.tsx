@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { motion } from 'framer-motion';
 import { Filter, X, ChevronDown, Check, SlidersHorizontal, Map as MapIcon, BarChart3, AlertTriangle, Layers } from 'lucide-react';
 import { useStore, type Outcome } from '../store/useStore';
@@ -162,12 +163,35 @@ const riskBarData = {
 import { useQuery } from '@tanstack/react-query';
 import { fetchKPIs } from '../lib/api';
 
+const mapContainerStyle = { width: '100%', height: '100%', borderRadius: '8px' };
+const center = { lat: 22.5937, lng: 78.9629 };
+const mapOptions = {
+  disableDefaultUI: true,
+  styles: [
+    { "elementType": "geometry", "stylers": [{ "color": "#0a1520" }] },
+    { "elementType": "labels.text.fill", "stylers": [{ "color": "#8ec3b9" }] },
+    { "elementType": "labels.text.stroke", "stylers": [{ "color": "#1a3646" }] },
+    { "featureType": "administrative.country", "elementType": "geometry.stroke", "stylers": [{ "color": "#4b6878" }] },
+    { "featureType": "administrative.land_parcel", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "administrative.neighborhood", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "poi", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "road", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "transit", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#060c13" }] }
+  ]
+};
+
 export default function Dashboard() {
   const { outcome } = useStore();
   
   const { data: kpiData, isLoading } = useQuery({
     queryKey: ['kpis', outcome],
     queryFn: () => fetchKPIs(outcome),
+  });
+  
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
   });
 
   return (
@@ -233,21 +257,20 @@ export default function Dashboard() {
                 Spatial Distribution
                 <button className="p-1 hover:bg-white/10 rounded"><BarChart3 size={16}/></button>
               </h3>
-              
-              <div className="flex-1 border border-white/5 rounded block relative group overflow-hidden bg-[#0A111F] flex items-center justify-center">
-                 {/* Placeholder for real SVG or Leaflet map. Using abstract geometry for visual demo */}
-                 <svg viewBox="0 0 100 100" className="w-full h-full p-10 opacity-60">
-                    <path d="M40 10 L60 10 L70 30 L60 50 L80 60 L70 90 L40 80 L30 90 L20 70 L10 50 L30 30 Z" fill="#1B4332" stroke="#4ade80" strokeWidth="0.5" className="hover:fill-accent transition-colors cursor-pointer" />
-                    <circle cx="50" cy="40" r="2" fill="#E63946" className="animate-pulse shadow-lg" />
-                    <circle cx="65" cy="55" r="3" fill="#E63946" className="animate-pulse" />
-                    <circle cx="25" cy="60" r="1.5" fill="#f87171" className="animate-pulse" />
-                 </svg>
-                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <span className="bg-black/80 px-4 py-2 rounded text-sm font-mono text-gray-300 border border-white/10 backdrop-blur opacity-0 group-hover:opacity-100 transition-opacity">
-                      Interactive Leaflet Map Loading...
-                    </span>
-                 </div>
-              </div>
+                            <div className="flex-1 border border-white/5 rounded block relative overflow-hidden bg-[#0A111F] flex items-center justify-center">
+                 {isLoaded ? (
+                   <GoogleMap
+                     mapContainerStyle={mapContainerStyle}
+                     center={center}
+                     zoom={4.5}
+                     options={mapOptions}
+                   >
+                     {/* Data Overlays will go here */}
+                   </GoogleMap>
+                 ) : (
+                   <div className="text-gray-400 font-mono text-xs animate-pulse">Loading Google Maps Analytics Engine...</div>
+                 )}
+               </div>
 
               {/* Map Legend */}
               <div className="absolute bottom-6 right-6 bg-black/80 border border-white/10 backdrop-blur-md p-3 rounded-lg flex flex-col gap-1">
