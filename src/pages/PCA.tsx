@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { PieChart, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart } from 'recharts';
+import { PieChart, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, ComposedChart } from 'recharts';
 import { Coins, Sigma, Target, Network, CheckCircle, PieChart as PieIcon, LineChart as LineChartIcon } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -73,7 +73,7 @@ export default function PCA() {
               
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={screeData} margin={{ top: 10, right: 30, left: -20, bottom: 0 }}>
+                  <ComposedChart data={screeData} margin={{ top: 10, right: 30, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorVariance" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#E63946" stopOpacity={0.3}/>
@@ -89,7 +89,7 @@ export default function PCA() {
                     />
                     <Area type="monotone" dataKey="variance" stroke="#E63946" fillOpacity={1} fill="url(#colorVariance)" />
                     <Line type="monotone" dataKey="cumulative" stroke="#1B4332" strokeWidth={3} dot={{ fill: '#1B4332', strokeWidth: 2 }} />
-                  </AreaChart>
+                  </ComposedChart>
                 </ResponsiveContainer>
               </div>
               <div className="mt-4 flex gap-6 text-xs font-mono justify-center text-gray-400">

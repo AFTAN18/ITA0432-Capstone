@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Circle, InfoWindow } from '@react-google-maps/api';
 
 const mapContainerStyle = {
   width: '100%',
@@ -32,16 +32,16 @@ import { cn } from '../lib/utils';
 
 // Fake Top 10 High Risk Districts
 const hotspots = [
-  { name: 'Bahraich', state: 'Uttar Pradesh', stunting: 64.1, anemia: 72.4, risk: 'High' },
-  { name: 'Sitamarhi', state: 'Bihar', stunting: 62.8, anemia: 71.1, risk: 'High' },
-  { name: 'Shravasti', state: 'Uttar Pradesh', stunting: 61.5, anemia: 70.8, risk: 'High' },
-  { name: 'Purnia', state: 'Bihar', stunting: 60.1, anemia: 68.2, risk: 'High' },
-  { name: 'Balrampur', state: 'Uttar Pradesh', stunting: 59.4, anemia: 69.5, risk: 'High' },
-  { name: 'Araria', state: 'Bihar', stunting: 58.7, anemia: 67.9, risk: 'High' },
-  { name: 'Koppal', state: 'Karnataka', stunting: 56.4, anemia: 65.1, risk: 'High' },
-  { name: 'Yadgir', state: 'Karnataka', stunting: 55.2, anemia: 64.8, risk: 'Med' },
-  { name: 'Nandurbar', state: 'Maharashtra', stunting: 54.8, anemia: 66.2, risk: 'Med' },
-  { name: 'Dhubri', state: 'Assam', stunting: 54.1, anemia: 63.5, risk: 'Med' },
+  { name: 'Bahraich', state: 'Uttar Pradesh', stunting: 64.1, anemia: 72.4, risk: 'High', lat: 27.5756, lng: 81.5940 },
+  { name: 'Sitamarhi', state: 'Bihar', stunting: 62.8, anemia: 71.1, risk: 'High', lat: 26.5862, lng: 85.4988 },
+  { name: 'Shravasti', state: 'Uttar Pradesh', stunting: 61.5, anemia: 70.8, risk: 'High', lat: 27.7027, lng: 81.8286 },
+  { name: 'Purnia', state: 'Bihar', stunting: 60.1, anemia: 68.2, risk: 'High', lat: 25.7771, lng: 87.4753 },
+  { name: 'Balrampur', state: 'Uttar Pradesh', stunting: 59.4, anemia: 69.5, risk: 'High', lat: 27.4278, lng: 82.1751 },
+  { name: 'Araria', state: 'Bihar', stunting: 58.7, anemia: 67.9, risk: 'High', lat: 26.1481, lng: 87.4722 },
+  { name: 'Koppal', state: 'Karnataka', stunting: 56.4, anemia: 65.1, risk: 'High', lat: 15.3468, lng: 76.1555 },
+  { name: 'Yadgir', state: 'Karnataka', stunting: 55.2, anemia: 64.8, risk: 'Med', lat: 16.7648, lng: 77.1352 },
+  { name: 'Nandurbar', state: 'Maharashtra', stunting: 54.8, anemia: 66.2, risk: 'Med', lat: 21.3656, lng: 74.2435 },
+  { name: 'Dhubri', state: 'Assam', stunting: 54.1, anemia: 63.5, risk: 'Med', lat: 26.0270, lng: 89.9723 },
 ];
 
 const RiskBadge = ({ risk }: { risk: string }) => {
@@ -136,7 +136,28 @@ export default function Spatial() {
                 zoom={5}
                 options={mapOptions}
               >
-                 {/* Google Maps Data layer can be injected here for GeoJSON */}
+                 {/* Visual Mapping overlays */}
+                 {hotspots.map((h, i) => (
+                    <Circle
+                      key={i}
+                      center={{ lat: h.lat, lng: h.lng }}
+                      radius={h.risk === 'High' ? 65000 : 45000}
+                      options={{
+                        fillColor: h.risk === 'High' ? '#E63946' : '#f87171',
+                        fillOpacity: 0.65,
+                        strokeColor: '#E63946',
+                        strokeWeight: 2,
+                        clickable: true
+                      }}
+                    />
+                 ))}
+                 
+                 {/* PCA Simulation Visual - High Density Lines (Static example) */}
+                 <Circle
+                    center={{ lat: 21.1458, lng: 79.0882 }} // Nagpur center reference for mass cluster
+                    radius={300000}
+                    options={{ fillColor: '#1B4332', fillOpacity: 0.2, strokeColor: '#2d6a4f', strokeWeight: 1 }}
+                 />
               </GoogleMap>
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center text-accent/50 font-mono text-sm tracking-widest gap-2">
