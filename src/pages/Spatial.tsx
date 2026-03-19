@@ -1,7 +1,32 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%'
+};
+
+const center = {
+  lat: 22.5937,
+  lng: 78.9629
+};
+
+const mapOptions = {
+  disableDefaultUI: true,
+  styles: [
+    { "elementType": "geometry", "stylers": [{ "color": "#0a1520" }] },
+    { "elementType": "labels.text.fill", "stylers": [{ "color": "#8ec3b9" }] },
+    { "elementType": "labels.text.stroke", "stylers": [{ "color": "#1a3646" }] },
+    { "featureType": "administrative.country", "elementType": "geometry.stroke", "stylers": [{ "color": "#4b6878" }] },
+    { "featureType": "administrative.land_parcel", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "administrative.neighborhood", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "poi", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "road", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "transit", "stylers": [{ "visibility": "off" }] },
+    { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#060c13" }] }
+  ]
+};
 import { Layers, Map as MapIcon, ArrowUpRight, Flame, ShieldAlert, Navigation } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -32,6 +57,11 @@ const RiskBadge = ({ risk }: { risk: string }) => {
 
 export default function Spatial() {
   const [activeLayer, setActiveLayer] = useState('stunting');
+  
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
+  });
 
   return (
     <div className="flex h-full bg-surface overflow-hidden">
@@ -99,22 +129,21 @@ export default function Spatial() {
 
          {/* Actual Map Area */}
          <div className="w-full h-full bg-[#0a1520] relative">
-            <MapContainer 
-               center={[22.5937, 78.9629]} 
-               zoom={5} 
-               style={{ height: '100%', width: '100%', background: '#0a1520' }}
-               zoomControl={false}
-               className="grayscale contrast-125 brightness-75 hue-rotate-[200deg]" // Styling tile layer to fit dark mode roughly
-            >
-               <TileLayer
-                  attribution=""
-                  url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-               />
-               {/* 
-                 In a real implementation, a <GeoJSON data={indiaDistrictsGeoJSON} style={geoJSONStyle} onEachFeature={bindTooltips} /> 
-                 would be rendered here reflecting the activeLayer risk values. 
-               */}
-            </MapContainer>
+            {isLoaded ? (
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={center}
+                zoom={5}
+                options={mapOptions}
+              >
+                 {/* Google Maps Data layer can be injected here for GeoJSON */}
+              </GoogleMap>
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center text-accent/50 font-mono text-sm tracking-widest gap-2">
+                 <div className="animate-spin h-6 w-6 border-2 border-accent/20 border-t-accent rounded-full"></div>
+                 Loading Google Map Engine...
+              </div>
+            )}
             
             {/* Map Centering Hint overlay styling */}
             <div className="pointer-events-none absolute inset-0 z-[400] shadow-[inset_0_0_100px_rgba(10,21,32,0.9)]"></div>
