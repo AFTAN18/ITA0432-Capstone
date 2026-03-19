@@ -5,7 +5,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
 # Import routers
-from app.routers import kpis, models, children, spatial, pca, districts
+from app.routers import kpis, models, children, spatial, pca, districts, policy, upload
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="NutriMap India API", version="1.0.0")
@@ -30,6 +30,8 @@ app.include_router(children.router, prefix="/api/v1/children", tags=["Children M
 app.include_router(spatial.router, prefix="/api/v1/spatial", tags=["Spatial Analytics"])
 app.include_router(pca.router, prefix="/api/v1/pca", tags=["PCA Wealth Explorer"])
 app.include_router(districts.router, prefix="/api/v1/districts", tags=["Districts"])
+app.include_router(policy.router, prefix="/api/v1/policy", tags=["Policy Synthesis"])
+app.include_router(upload.router, prefix="/api/v1/upload", tags=["Upload Processor"])
 
 @app.get("/")
 @limiter.limit("100/minute")
