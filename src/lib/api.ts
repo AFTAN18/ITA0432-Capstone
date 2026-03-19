@@ -37,7 +37,7 @@ export async function fetchKPIs(outcome: string) {
   if (!topErr && topDistrict && topDistrict.districts) {
      highestRisk = {
        name: `${(topDistrict.districts as any).district_name} (${(topDistrict.districts as any).state_code})`,
-       val: topDistrict[orderCol]
+       val: (topDistrict as any)[orderCol]
      };
   }
 
