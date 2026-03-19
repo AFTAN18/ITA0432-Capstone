@@ -118,7 +118,7 @@ CREATE TABLE children (
 -- District Summaries
 CREATE TABLE district_summaries (
   id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  district_id             UUID REFERENCES districts(id) UNIQUE ON DELETE CASCADE,
+  district_id             UUID UNIQUE REFERENCES districts(id) ON DELETE CASCADE,
   total_children          INTEGER,
   stunting_prevalence     DECIMAL(5,2),
   anemia_prevalence       DECIMAL(5,2),
