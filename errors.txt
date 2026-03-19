@@ -1,0 +1,42 @@
+
+> ita0432-capstone-1@0.0.0 build
+> tsc -b && vite build
+
+src/App.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Dashboard.tsx(1,1): error TS6192: All imports in import declaration are unused.
+src/pages/Dashboard.tsx(3,18): error TS6133: 'X' is declared but its value is never read.
+src/pages/Dashboard.tsx(3,34): error TS6133: 'Check' is declared but its value is never read.
+src/pages/Dashboard.tsx(4,20): error TS1484: 'Outcome' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/Dashboard.tsx(6,98): error TS2307: Cannot find module 'chart.js' or its corresponding type declarations.
+src/pages/Dashboard.tsx(7,21): error TS2307: Cannot find module 'react-chartjs-2' or its corresponding type declarations.
+src/pages/DataExplorer.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/DataExplorer.tsx(28,53): error TS7006: Parameter 'info' implicitly has an 'any' type.
+src/pages/DataExplorer.tsx(34,14): error TS7006: Parameter 'info' implicitly has an 'any' type.
+src/pages/DataExplorer.tsx(43,14): error TS7006: Parameter 'info' implicitly has an 'any' type.
+src/pages/DataExplorer.tsx(49,58): error TS7006: Parameter 'info' implicitly has an 'any' type.
+src/pages/DataExplorer.tsx(58,5): error TS2322: Type 'Dispatch<SetStateAction<never[]>>' is not assignable to type 'OnChangeFn<SortingState>'.
+  Types of parameters 'value' and 'updaterOrValue' are incompatible.
+    Type 'Updater<SortingState>' is not assignable to type 'SetStateAction<never[]>'.
+      Type 'SortingState' is not assignable to type 'SetStateAction<never[]>'.
+        Type 'ColumnSort[]' is not assignable to type 'never[]'.
+          Type 'ColumnSort' is not assignable to type 'never'.
+src/pages/Landing.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Landing.tsx(4,1): error TS6133: 'ArrrowRight' is declared but its value is never read.
+src/pages/Landing.tsx(4,10): error TS2724: '"lucide-react"' has no exported member named 'ArrrowRight'. Did you mean 'ArrowRight'?
+src/pages/Models.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Models.tsx(3,39): error TS6133: 'Info' is declared but its value is never read.
+src/pages/PCA.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/PCA.tsx(3,10): error TS6133: 'PieChart' is declared but its value is never read.
+src/pages/PCA.tsx(4,10): error TS6133: 'Coins' is declared but its value is never read.
+src/pages/PCA.tsx(4,17): error TS6133: 'Sigma' is declared but its value is never read.
+src/pages/PCA.tsx(4,24): error TS6133: 'Target' is declared but its value is never read.
+src/pages/PCA.tsx(43,54): error TS2322: Type '{ className: string; size: number; }' is not assignable to type 'IntrinsicAttributes & PolarChartProps<any> & { ref?: Ref<SVGSVGElement> | undefined; }'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & PolarChartProps<any> & { ref?: Ref<SVGSVGElement> | undefined; }'.
+src/pages/PCA.tsx(69,59): error TS2322: Type '{ className: string; size: number; }' is not assignable to type 'IntrinsicAttributes & CartesianChartProps<any> & { ref?: Ref<SVGSVGElement> | undefined; }'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & CartesianChartProps<any> & { ref?: Ref<SVGSVGElement> | undefined; }'.
+src/pages/PCA.tsx(126,45): error TS2304: Cannot find name 'cn'.
+src/pages/PolicyInsights.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Spatial.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Spatial.tsx(3,35): error TS6133: 'GeoJSON' is declared but its value is never read.
+src/pages/Spatial.tsx(3,44): error TS6133: 'useMap' is declared but its value is never read.
+src/pages/Spatial.tsx(5,55): error TS6133: 'ShieldAlert' is declared but its value is never read.
