@@ -5,6 +5,7 @@ import {
   getPaginationRowModel,
   flexRender, 
   getSortedRowModel,
+  getFilteredRowModel,
   type ColumnDef,
   type SortingState
 } from '@tanstack/react-table';
@@ -36,6 +37,7 @@ const data: ChildData[] = Array.from({ length: 50 }, (_, i) => ({
 
 export default function DataExplorer() {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
   
   const columns = useMemo<ColumnDef<ChildData>[]>(() => [
     { header: 'Child ID', accessorKey: 'id', cell: (info) => <span className="font-mono text-gray-300">{info.getValue() as string}</span> },
@@ -67,10 +69,12 @@ export default function DataExplorer() {
   const table = useReactTable({
     data,
     columns,
-    state: { sorting },
+    state: { sorting, globalFilter },
     onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 
