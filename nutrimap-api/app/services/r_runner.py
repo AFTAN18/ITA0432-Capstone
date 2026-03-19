@@ -3,7 +3,15 @@ from pathlib import Path
 
 async def run_r_model(model_type: str, outcome: str, data_path: str) -> dict:
     """Executes a decoupled R analysis script safely as a subprocess"""
-    script = Path(f"r_scripts/run_{model_type}.R")
+    
+    script_map = {
+        "logistic": "04_logistic_regression.R",
+        "multilevel": "05_multilevel_modeling.R",
+        "interaction": "06_interaction_effects.R"
+    }
+    script_name = script_map.get(model_type, "run_full_pipeline.R")
+    script = Path(f"r_scripts/{script_name}")
+
     job_id = str(uuid.uuid4())
     result = subprocess.run(
         ["Rscript", str(script),
